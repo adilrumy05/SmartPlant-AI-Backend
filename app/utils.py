@@ -1,13 +1,12 @@
 import os
 from datetime import datetime
-
-UPLOAD_DIR = "./uploads"
+UPLOAD_DIR = os.getenv("UPLOAD_DIR", "/data/uploads")   # <-- persistent disk
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-def save_uploaded_image(file) -> str:
-    timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
-    filename = f"{timestamp}_{file.filename}"
-    filepath = os.path.join(UPLOAD_DIR, filename)
-    with open(filepath, "wb") as f:
+def save_uploaded_image(file):
+    ts = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+    filename = f"{ts}_{file.filename}"
+    path = os.path.join(UPLOAD_DIR, filename)
+    with open(path, "wb") as f:
         f.write(file.file.read())
-    return filepath
+    return path
