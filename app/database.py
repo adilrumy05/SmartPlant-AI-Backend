@@ -1,11 +1,11 @@
+import os
 from sqlalchemy import create_engine, Column, Integer, String, Float, Boolean, DateTime
 from sqlalchemy.orm import declarative_base, sessionmaker
 from datetime import datetime
 
-DATABASE_URL = "sqlite:///./plant_ai.db"   # you can change to PostgreSQL later
-
+DB_URL = os.getenv("DATABASE_URL", "sqlite:////data/plant_ai.db")  # persist on Render disk
 Base = declarative_base()
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+engine = create_engine(DB_URL, connect_args={"check_same_thread": False} if DB_URL.startswith("sqlite") else {})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 class Prediction(Base):
