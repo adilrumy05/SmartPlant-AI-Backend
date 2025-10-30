@@ -6,3 +6,5 @@ torchvision
 sqlalchemy
 python-multipart
 pydantic
+huggingface_hub
+requests
